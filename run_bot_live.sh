@@ -6,21 +6,42 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+# Config dosyasından ayarları dinamik olarak oku
+CONFIG_FILE="config/config.json"
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "❌ HATA: Config dosyası bulunamadı: $CONFIG_FILE"
+    exit 1
+fi
+
+# jq komutunun varlığını kontrol et
+if ! command -v jq &> /dev/null; then
+    echo "❌ HATA: 'jq' komutu bulunamadı. Lütfen 'sudo apt install jq -y' ile kurun."
+    exit 1
+fi
+
+# Ayarları config'den al
+MAX_POS=$(jq -r '.trading_config.max_positions' "$CONFIG_FILE")
+BASE_PERCENT=$(jq -r '.trading_config.base_position_percent' "$CONFIG_FILE")
+LEVERAGE=$(jq -r '.trading_config.leverage' "$CONFIG_FILE")
+STOP_LOSS=$(jq -r '.trading_config.stop_loss_percent' "$CONFIG_FILE")
+MAX_DAILY_LOSS=$(jq -r '.risk_management.max_daily_loss_usd' "$CONFIG_FILE")
+CIRCUIT_BREAKER=$(jq -r '.risk_management.circuit_breaker.max_consecutive_losses' "$CONFIG_FILE")
+
 echo "═══════════════════════════════════════════════════════════════════════════"
 echo "⚠️  GenetiX Bot - GERÇEK İŞLEM MODU"
 echo "═══════════════════════════════════════════════════════════════════════════"
 echo ""
 echo "🔴 DİKKAT: Bot GERÇEK işlem açacak şekilde yapılandırıldı!"
 echo ""
-echo "📋 Mevcut Ayarlar:"
+echo "📋 Mevcut Ayarlar (config.json'dan okundu):"
 echo "   • Testnet: AKTIF (https://testnet.binancefuture.com)"
 echo "   • Dry Run: KAPALI (Gerçek emirler gönderilecek)"
-echo "   • Maksimum Pozisyon: 3"
-echo "   • Pozisyon Büyüklüğü: Balance'ın %5'i"
-echo "   • Leverage: 3x"
-echo "   • Stop Loss: %2"
-echo "   • Max Daily Loss: $50"
-echo "   • Circuit Breaker: 3 ardışık zarar"
+echo "   • Maksimum Pozisyon: $MAX_POS"
+echo "   • Pozisyon Büyüklüğü: Balance'ın %$BASE_PERCENT'i"
+echo "   • Leverage: ${LEVERAGE}x"
+echo "   • Stop Loss: %$STOP_LOSS"
+echo "   • Max Daily Loss: $$MAX_DAILY_LOSS"
+echo "   • Circuit Breaker: $CIRCUIT_BREAKER ardışık zarar"
 echo ""
 echo "═══════════════════════════════════════════════════════════════════════════"
 echo ""
@@ -78,7 +99,7 @@ echo "════════════════════════�
 echo ""
 echo "📊 Process ID: $BOT_PID"
 echo "📝 Log: logs/production/nohup_live_$(date +%Y%m%d_%H%M%S).log"
-echo "🌐 Dashboard: http://localhost:8080"
+echo "🌐 Dashboard: http://161.35.76.27:8080"
 echo ""
 echo "⚠️  ÖNEMLİ HATIRLATMA:"
 echo "   • Bot GERÇEK emirler gönderecek!"
