@@ -1,0 +1,42 @@
+[Unit]
+Description=GenetiX Production Trading Bot v2.5 - Frankfurt Server
+After=network.target network-online.target
+Wants=network-online.target
+Documentation=https://github.com/yusufcmg/Trade_demo
+
+[Service]
+Type=simple
+User=yusuf
+Group=yusuf
+WorkingDirectory=/home/yusuf/Trade_demo
+Environment="PATH=/home/yusuf/Trade_demo/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="PYTHONUNBUFFERED=1"
+
+# Bot'u başlat (--dry-run ile testnet)
+ExecStart=/home/yusuf/Trade_demo/venv/bin/python3 production_bot_v2.py --dry-run
+
+# Graceful shutdown (60 seconds)
+TimeoutStopSec=60
+KillMode=mixed
+KillSignal=SIGTERM
+
+# Restart policy - ALWAYS (terminal kapansa bile)
+Restart=always
+RestartSec=10
+StartLimitIntervalSec=300
+StartLimitBurst=10
+
+# Logging
+StandardOutput=append:/home/yusuf/Trade_demo/logs/production/systemd_stdout.log
+StandardError=append:/home/yusuf/Trade_demo/logs/production/systemd_stderr.log
+SyslogIdentifier=genetix-bot
+
+# Resource limits (Basitleştirilmiş - namespace desteği gerektirmez)
+LimitNOFILE=65536
+LimitNPROC=512
+CPUQuota=150%
+MemoryMax=2G
+
+[Install]
+WantedBy=multi-user.target
+

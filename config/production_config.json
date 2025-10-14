@@ -1,0 +1,151 @@
+{
+    "api_credentials": {
+        "api_key": "51Uw9EmFYAQTrLEyQ3xY0sbEHcRj3ejIATfYBhBOXNS5a3nQxTT6eTfXurgSuUIg",
+        "secret_key": "45ywM5wbQkInKCQjlVQQJoj5fJxHL8ujqyumrxHtUvW5ylcBtplFPaPJDuosUvxg"
+    },
+    "testnet_config": {
+        "api_url": "https://testnet.binancefuture.com/fapi",
+        "ws_url": "wss://stream.binancefuture.com"
+    },
+    "symbols_to_trade": [
+        "BTCUSDT",
+        "ETHUSDT",
+        "BNBUSDT",
+        "ADAUSDT",
+        "DOTUSDT",
+        "LINKUSDT",
+        "LTCUSDT",
+        "SOLUSDT"
+    ],
+    "portfolio_weights": {
+        "BTCUSDT": 0.40,
+        "ETHUSDT": 0.30,
+        "BNBUSDT": 0.15,
+        "ADAUSDT": 0.03,
+        "DOTUSDT": 0.03,
+        "LINKUSDT": 0.03,
+        "LTCUSDT": 0.03,
+        "SOLUSDT": 0.03
+    },
+    "validated_strategy": {
+        "strategy_name": "Multi-Timeframe Validated Strategy",
+        "validation_date": "2025-10-14",
+        "training_fitness": 0.7629,
+        "validation_fitness": 0.6831,
+        "fitness_consistency": 0.8954,
+        "parameters": {
+            "sma_short": 16,
+            "sma_long": 113,
+            "rsi_threshold": 31.88,
+            "rsi_oversold": 24.61,
+            "rsi_overbought": 74.56,
+            "bollinger_period": 19,
+            "bollinger_std": 1.83,
+            "macd_fast": 10,
+            "macd_slow": 28,
+            "macd_signal": 9,
+            "volume_threshold": 1.47,
+            "trend_strength": 0.60,
+            "confluence_weight": 0.93
+        }
+    },
+    "trading_config": {
+        "max_positions": 3,
+        "position_size_type": "portfolio_weighted",
+        "base_position_percent": 5.0,
+        "leverage": 3,
+        "stop_loss_percent": 2.0,
+        "take_profit_percent": 4.0,
+        "trailing_stop_percent": 1.0,
+        "max_position_usd": 500.0,
+        "min_position_usd": 10.0
+    },
+    "precision": {
+        "BTCUSDT": {
+            "price": 1,
+            "quantity": 3
+        },
+        "ETHUSDT": {
+            "price": 2,
+            "quantity": 3
+        },
+        "BNBUSDT": {
+            "price": 2,
+            "quantity": 2
+        },
+        "ADAUSDT": {
+            "price": 4,
+            "quantity": 0
+        },
+        "DOTUSDT": {
+            "price": 3,
+            "quantity": 1
+        },
+        "LINKUSDT": {
+            "price": 3,
+            "quantity": 1
+        },
+        "LTCUSDT": {
+            "price": 2,
+            "quantity": 2
+        },
+        "SOLUSDT": {
+            "price": 2,
+            "quantity": 1
+        }
+    },
+    "min_notional": {
+        "BTCUSDT": 5.0,
+        "ETHUSDT": 5.0,
+        "BNBUSDT": 5.0,
+        "ADAUSDT": 5.0,
+        "DOTUSDT": 5.0,
+        "LINKUSDT": 5.0,
+        "LTCUSDT": 5.0,
+        "SOLUSDT": 5.0
+    },
+    "risk_management": {
+        "max_daily_loss_usd": 50.0,
+        "max_daily_loss_percent": 3.0,
+        "max_drawdown_percent": 10.0,
+        "emergency_stop_loss_usd": 100.0,
+        "min_confidence": 0.75,
+        "min_confluence_score": 7.0,
+        "circuit_breaker": {
+            "enabled": true,
+            "max_consecutive_losses": 3,
+            "cooldown_minutes": 120
+        }
+    },
+    "monitoring": {
+        "enable_dashboard": true,
+        "dashboard_port": 8080,
+        "enable_telegram": false,
+        "telegram_bot_token": "",
+        "telegram_chat_id": "",
+        "health_check_interval": 60,
+        "save_results_interval": 300
+    },
+    "logging": {
+        "level": "INFO",
+        "console_output": true,
+        "file_output": true,
+        "log_dir": "logs/production",
+        "max_log_size_mb": 100,
+        "backup_count": 30,
+        "rotation": {
+            "when": "midnight",
+            "interval": 1
+        }
+    },
+    "testnet": {
+        "enabled": true,
+        "base_url": "https://testnet.binancefuture.com",
+        "dry_run": false
+    },
+    "deployment": {
+        "environment": "testnet",
+        "version": "2.3.0",
+        "deployment_date": "2025-10-14"
+    }
+}
