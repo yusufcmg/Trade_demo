@@ -141,7 +141,7 @@ def api_activity():
 def start_dashboard_server(port=8080):
     """Start Flask dashboard server in background thread"""
     def run_server():
-        app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False, threaded=True)
+        app.run(host='127.0.0.1', port=8080, debug=False, use_reloader=False, threaded=True)
     
     dashboard_thread = Thread(target=run_server, daemon=True)
     dashboard_thread.start()
