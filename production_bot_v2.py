@@ -29,6 +29,14 @@ from threading import Thread
 from flask import Flask, jsonify, send_file
 from flask_cors import CORS
 
+
+class CustomJSONEncoder(json.JSONEncoder):
+    """Custom encoder to handle datetime objects"""
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
+
 # Colorama initialize
 init(autoreset=True)
 
@@ -1102,7 +1110,7 @@ class ProductionTradingBot:
             }
             
             with open(results_file, 'w') as f:
-                json.dump(results, f, indent=2)
+                json.dump(results, f)
             
             self.logger.debug(f"💾 Results saved: {results_file}")
             

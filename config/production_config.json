@@ -53,12 +53,12 @@
         "max_positions": 3,
         "position_size_type": "portfolio_weighted",
         "base_position_percent": 5.0,
-        "leverage": 3,
+        "leverage": 6,
         "stop_loss_percent": 2.0,
         "take_profit_percent": 4.0,
         "trailing_stop_percent": 1.0,
         "max_position_usd": 500.0,
-        "min_position_usd": 10.0
+        "min_position_usd": 90.0
     },
     "precision": {
         "BTCUSDT": {
