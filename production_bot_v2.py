@@ -141,7 +141,10 @@ def api_activity():
 def start_dashboard_server(port=8080):
     """Start Flask dashboard server in background thread"""
     def run_server():
-        app.run(host='127.0.0.1', port=8080, debug=False, use_reloader=False, threaded=True)
+        # SSL dosyalarının yolunu ve yeni portu belirtiyoruz
+        ssl_context = ('cert.pem', 'key.pem')
+        app.run(host='0.0.0.0', port=8443, debug=False, use_reloader=False, threaded=True, ssl_context=ssl_context)
+        
     
     dashboard_thread = Thread(target=run_server, daemon=True)
     dashboard_thread.start()
