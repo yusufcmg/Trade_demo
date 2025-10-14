@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # Config dosyasından ayarları dinamik olarak oku
-CONFIG_FILE="config/config.json"
+CONFIG_FILE="config/production_config.json"
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "❌ HATA: Config dosyası bulunamadı: $CONFIG_FILE"
     exit 1
