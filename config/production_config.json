@@ -20,12 +20,12 @@
     "portfolio_weights": {
         "BTCUSDT": 0.40,
         "ETHUSDT": 0.30,
-        "BNBUSDT": 0.15,
+        "BNBUSDT": 0.09,
         "ADAUSDT": 0.03,
         "DOTUSDT": 0.03,
         "LINKUSDT": 0.03,
         "LTCUSDT": 0.03,
-        "SOLUSDT": 0.03
+        "SOLUSDT": 0.09
     },
     "validated_strategy": {
         "strategy_name": "Multi-Timeframe Validated Strategy",
@@ -50,15 +50,15 @@
         }
     },
     "trading_config": {
-        "max_positions": 3,
+        "max_positions": 4,
         "position_size_type": "portfolio_weighted",
-        "base_position_percent": 5.0,
-        "leverage": 6,
+        "base_position_percent": 7.5,
+        "leverage": 5,
         "stop_loss_percent": 2.0,
         "take_profit_percent": 4.0,
         "trailing_stop_percent": 1.0,
-        "max_position_usd": 500.0,
-        "min_position_usd": 90.0
+        "max_position_usd": 750.0,
+        "min_position_usd": 15.0
     },
     "precision": {
         "BTCUSDT": {
