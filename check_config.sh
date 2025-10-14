@@ -1,7 +1,9 @@
 #!/bin/bash
 # GenetiX Bot - Config Doğrulama
 
-cd /mnt/c/masaustu/genetix/evrimx/production
+# Script'in bulunduğu dizine git
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
 echo "═══════════════════════════════════════════════════════════════════════════"
 echo "🔍 GenetiX Bot - Konfigürasyon Kontrolü"

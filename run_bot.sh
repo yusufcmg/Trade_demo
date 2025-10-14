@@ -2,7 +2,9 @@
 # GenetiX Bot Başlatma Scripti
 # Kullanım: ./run_bot.sh
 
-cd /mnt/c/masaustu/genetix/evrimx/production
+# Script'in bulunduğu dizine git
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
 echo "🤖 GenetiX Bot başlatılıyor..."
 echo "📁 Dizin: $(pwd)"

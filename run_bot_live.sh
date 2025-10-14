@@ -2,7 +2,9 @@
 # GenetiX Bot - GERÇEK İŞLEM MODU BAŞLATMA
 # ⚠️  DİKKAT: Bu script GERÇEK işlem açacak!
 
-cd /mnt/c/masaustu/genetix/evrimx/production
+# Script'in bulunduğu dizine git
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
 echo "═══════════════════════════════════════════════════════════════════════════"
 echo "⚠️  GenetiX Bot - GERÇEK İŞLEM MODU"
