@@ -19,11 +19,11 @@
     ],
     "portfolio_weights": {
         "BTCUSDT": 0.40,
-        "ETHUSDT": 0.30,
+        "ETHUSDT": 0.25,
         "BNBUSDT": 0.09,
-        "ADAUSDT": 0.03,
-        "DOTUSDT": 0.03,
-        "LINKUSDT": 0.03,
+        "ADAUSDT": 0.05,
+        "DOTUSDT": 0.05,
+        "LINKUSDT": 0.04,
         "LTCUSDT": 0.03,
         "SOLUSDT": 0.09
     },
@@ -52,13 +52,13 @@
     "trading_config": {
         "max_positions": 6,
         "position_size_type": "portfolio_weighted",
-        "base_position_percent": 7.5,
+        "base_position_percent": 9.5,
         "leverage": 5,
         "stop_loss_percent": 2.0,
         "take_profit_percent": 4.0,
         "trailing_stop_percent": 1.0,
-        "max_position_usd": 750.0,
-        "min_position_usd": 15.0
+        "max_position_usd": 500.0,
+        "min_position_usd": 10.0
     },
     "precision": {
         "BTCUSDT": {
@@ -105,9 +105,9 @@
         "SOLUSDT": 5.0
     },
     "risk_management": {
-        "max_daily_loss_usd": 50.0,
-        "max_daily_loss_percent": 3.0,
-        "max_drawdown_percent": 10.0,
+        "max_daily_loss_usd": 500.0,
+        "max_daily_loss_percent": 6.0,
+        "max_drawdown_percent": 50.0,
         "emergency_stop_loss_usd": 100.0,
         "min_confidence": 0.75,
         "min_confluence_score": 7.0,
