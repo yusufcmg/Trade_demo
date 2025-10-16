@@ -89,24 +89,46 @@ def api_status():
 
 @app.route('/api/positions')
 def api_positions():
-    """Get open positions"""
+    """Get open positions with live P&L calculation"""
     if not bot_instance:
         return jsonify({"error": "Bot not initialized"}), 503
     
     try:
         positions_list = []
         for symbol, pos in bot_instance.positions.items():
-            positions_list.append({
-                "symbol": symbol,
-                "side": pos.get('side', 'LONG'),
-                "entry_price": pos.get('entry_price', 0),
-                "current_price": pos.get('current_price', 0),
-                "quantity": pos.get('quantity', 0),
-                "leverage": pos.get('leverage', 5),
-                "pnl": pos.get('pnl', 0),
-                "pnl_percent": pos.get('pnl_percent', 0),
-                "duration": pos.get('duration', 0)
-            })
+            try:
+                # Anlık fiyatı al
+                current_price = bot_instance.api.get_current_price(symbol)
+                if current_price is None:
+                    continue # Fiyat alınamazsa pozisyonu atla
+
+                entry_price = pos.get('entry_price', 0)
+                side = pos.get('side', 'LONG')
+                quantity = abs(pos.get('size', 0))
+
+                # Anlık P&L hesapla
+                if side == 'LONG':
+                    pnl = (current_price - entry_price) * quantity
+                else: # SHORT
+                    pnl = (entry_price - current_price) * quantity
+                
+                pnl_percent = (pnl / (entry_price * quantity)) * 100 if entry_price > 0 else 0
+
+                positions_list.append({
+                    "symbol": symbol,
+                    "side": side,
+                    "entry_price": entry_price,
+                    "current_price": current_price,
+                    "quantity": quantity,
+                    "leverage": pos.get('leverage', 5),
+                    "pnl": round(pnl, 2),
+                    "pnl_percent": round(pnl_percent, 2),
+                    "duration": (datetime.now() - pos.get('entry_time', datetime.now())).total_seconds()
+                })
+            except Exception as e:
+                # Tek bir pozisyonda hata olursa diğerlerini etkileme
+                bot_instance.logger.error(f"Error processing position {symbol} for API: {e}")
+                continue
         
         return jsonify({"positions": positions_list})
     except Exception as e:
@@ -735,6 +757,10 @@ class ProductionTradingBot:
                     await self.save_results()
                     last_save = current_time
                 
+                 # Pozisyonları Binance ile senkronize et (daha az sıklıkla)
+                if current_time - last_save >= save_interval:
+                    await self.sync_positions_with_exchange()
+                    
                 # Health check
                 if current_time - last_health_check >= health_interval:
                     await self.health_check()
@@ -1140,6 +1166,27 @@ class ProductionTradingBot:
         except Exception as e:
             self.logger.error(f"❌ Health check failed: {e}")
     
+    async def sync_positions_with_exchange(self):
+        try:
+            # Binance'den gerçek açık pozisyonları al
+            actual_positions = {}
+            for symbol in self.symbols:
+                pos_data = self.api.get_position(symbol)
+                if pos_data and float(pos_data.get('positionAmt', 0)) != 0:
+                    actual_positions[symbol] = pos_data
+            # Botun hafızasındaki pozisyonları kontrol et
+            symbols_to_remove = []
+            for symbol, bot_pos in self.positions.items():
+                # Eğer botun hafızındaki pozisyon Binance'de yoksa, manuel kapatılmıştır.
+                if symbol not in actual_positions:
+                    self.logger.warning(f"🔄 Sync: {symbol} pozisyonu Binance'de bulunamadı. Bot hafızasından kaldırılıyor.")
+                    symbols_to_remove.append(symbol)
+            # Hafızadan gereksiz pozisyonları sil
+            for symbol in symbols_to_remove:
+                del self.positions[symbol]
+        except Exception as e:
+            self.logger.error(f"❌ Pozisyon senkronizasyon hatası: {e}")
+
     async def shutdown(self):
         """Graceful shutdown"""
         self.logger.info("🛑 Shutting down...")
