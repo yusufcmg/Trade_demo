@@ -30,12 +30,6 @@ from flask import Flask, jsonify, send_file
 from flask_cors import CORS
 
 
-class CustomJSONEncoder(json.JSONEncoder):
-    """Custom encoder to handle datetime objects"""
-    def default(self, obj):
-        if isinstance(obj, datetime):
-            return obj.isoformat()
-        return super().default(obj)
     
 class CustomJSONEncoder(json.JSONEncoder):
     """Custom encoder to handle datetime objects"""
@@ -476,11 +470,10 @@ class ProductionTradingBot:
         self.print_banner()
         self.logger.info("✅ Production Bot v2.3.0 hazır!")
 
-                # >>>>>> GEÇMİŞ VERİLERİ YÜKLEME KODU <<<<<<
+            
         self.logger.info("📂 Loading historical data...")
         try:
             results_dir = PROJECT_ROOT / "results" / "production"
-            # En son results dosyasını bul
             result_files = sorted(results_dir.glob("results_*.json"))
             if result_files:
                 latest_file = result_files[-1]
