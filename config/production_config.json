@@ -50,7 +50,7 @@
         }
     },
     "trading_config": {
-        "max_positions": 6,
+        "max_positions": 15,
         "position_size_type": "portfolio_weighted",
         "base_position_percent": 9.5,
         "leverage": 5,
