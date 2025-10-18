@@ -468,6 +468,44 @@ class ProductionTradingBot:
         
         self.print_banner()
         self.logger.info("✅ Production Bot v2.3.0 hazır!")
+
+                # >>>>>> GEÇMİŞ VERİLERİ YÜKLEME KODU <<<<<<
+        self.logger.info("📂 Loading historical data...")
+        try:
+            results_dir = PROJECT_ROOT / "results" / "production"
+            # En son results dosyasını bul
+            result_files = sorted(results_dir.glob("results_*.json"))
+            if result_files:
+                latest_file = result_files[-1]
+                self.logger.info(f"📄 Found results file: {latest_file.name}")
+                with open(latest_file, 'r') as f:
+                    historical_data = json.load(f)
+
+                # İstatistikleri yükle
+                if 'statistics' in historical_data:
+                    self.stats = historical_data['statistics']
+                    self.logger.info(f"✅ Loaded stats: {self.stats['trades_closed']} trades, {self.stats['wins']}W/{self.stats['losses']}L")
+
+                # İşlem geçmişini yükle
+                if 'recent_trades' in historical_data:
+                    self.trade_history = historical_data['recent_trades']
+                    self.logger.info(f"✅ Loaded {len(self.trade_history)} historical trades.")
+
+                # Başlangıç bakiyesini yükle
+                if 'initial_balance' in historical_data:
+                    self.initial_balance = historical_data['initial_balance']
+                    self.logger.info(f"✅ Loaded initial balance: ${self.initial_balance}")
+
+            else:
+                self.logger.info("📄 No historical results file found. Starting fresh.")
+
+        except FileNotFoundError:
+            self.logger.info("📄 No historical results file found. Starting fresh.")
+        except Exception as e:
+            self.logger.error(f"❌ Error loading historical data: {e}")
+        
+
+
     
     def print_banner(self):
         """Başlangıç banner'ı"""

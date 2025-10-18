@@ -36,11 +36,11 @@ echo ""
 
 # 3. Dashboard kontrolü
 echo "🌐 Dashboard Durumu:"
-if lsof -i :8080 > /dev/null 2>&1; then
-    echo "✅ Dashboard AKTIF (http://localhost:8080)"
-    lsof -i :8080 | grep LISTEN | awk '{print "   Port 8080: " $1 " (PID: " $2 ")"}'
+if lsof -i :8443 > /dev/null 2>&1; then
+    echo "✅ Dashboard AKTIF (http://localhost:8443)"
+    lsof -i :8443 | grep LISTEN | awk '{print "   Port 8443: " $1 " (PID: " $2 ")"}'
 else
-    echo "❌ Dashboard kapalı (Port 8080 boş)"
+    echo "❌ Dashboard kapalı (Port 8443 boş)"
 fi
 echo ""
 
@@ -88,5 +88,5 @@ echo "📋 Yardımcı Komutlar:"
 echo "   Bot'u başlat:     ./run_bot.sh"
 echo "   Bot'u durdur:     ./stop_bot.sh"
 echo "   Logları izle:     tail -f $LOG_FILE"
-echo "   Dashboard:        http://localhost:8080"
+echo "   Dashboard:        http://localhost:8443"
 echo "═══════════════════════════════════════════════════════════════════════════"
