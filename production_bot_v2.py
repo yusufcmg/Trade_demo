@@ -36,6 +36,13 @@ class CustomJSONEncoder(json.JSONEncoder):
         if isinstance(obj, datetime):
             return obj.isoformat()
         return super().default(obj)
+    
+class CustomJSONEncoder(json.JSONEncoder):
+    """Custom encoder to handle datetime objects"""
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 # Colorama initialize
 init(autoreset=True)
@@ -1177,7 +1184,7 @@ class ProductionTradingBot:
             }
             
             with open(results_file, 'w') as f:
-                json.dump(results, f)
+                 json.dump(results, f, cls=CustomJSONEncoder, indent=4)
             
             self.logger.debug(f"💾 Results saved: {results_file}")
             
